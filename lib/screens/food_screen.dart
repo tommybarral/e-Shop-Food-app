@@ -2,6 +2,8 @@ import 'package:eshop_food_app/widgets/carrousel_products.dart';
 import 'package:eshop_food_app/widgets/popular_carrousel_products.dart';
 import 'package:eshop_food_app/widgets/popular_section.dart';
 import 'package:flutter/material.dart';
+import '../models/user_data.dart';
+import 'package:provider/provider.dart';
 
 class FoodScreen extends StatelessWidget {
   FoodScreen({Key? key}) : super(key: key);
@@ -10,6 +12,9 @@ class FoodScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final loadedUsers = Provider.of<UserData>(context);
+
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.9),
       bottomNavigationBar: BottomNavigationBar(
@@ -46,8 +51,8 @@ class FoodScreen extends StatelessWidget {
                       // pas nécessaire d'ajouter le crossAxisAlignment.
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Tommy Barral', style: TextStyle(fontSize: 22),),
-                        Text('subtitle', style: TextStyle(fontSize: 16),),
+                        Text('Bonjour ${loadedUsers.name}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
+                        Text(loadedUsers.job, style: TextStyle(fontSize: 18),),
                       ],
                     ),
                     Container(

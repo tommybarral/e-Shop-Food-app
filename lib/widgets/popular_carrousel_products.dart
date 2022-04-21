@@ -1,18 +1,22 @@
-import 'package:eshop_food_app/widgets/additional_information.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/food_data.dart';
 
 class PopularCarrouselProducts extends StatelessWidget {
   const PopularCarrouselProducts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final loadedFoodData = Provider.of<FoodData>(context).foodItems;
+
     return Container(
       height: 250,
       width: double.infinity,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         physics: BouncingScrollPhysics(),
-        itemCount: 3,
+        itemCount: loadedFoodData.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(top: 8.0, left: 20.0, right: 20.0),
@@ -25,13 +29,14 @@ class PopularCarrouselProducts extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
                       image: NetworkImage(
-                          'https://moview.nl/wp-content/uploads/2018/04/Mountain_RvB-3-bw.jpg'),
+                          loadedFoodData[index].imageUrl),
                       fit: BoxFit.cover
                     ),
                   ),
                 ),
                 Container(
                   height: 90,
+                  width: MediaQuery.of(context).size.width / 1.7,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10),),
@@ -42,9 +47,52 @@ class PopularCarrouselProducts extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Nutritious fruit'),
-                        Text('subtitle'),
-                        AdditionalInformations(),
+                        Text(
+                          loadedFoodData[index].title,
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.stars, color: Colors.yellow,),
+                                  Text(
+                                    loadedFoodData[index].difficulty,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.place, color: Colors.greenAccent,),
+                                  Text(
+                                    '${loadedFoodData[index].location} km',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.timer_outlined, color: Colors.redAccent,),
+                                  Text(
+                                    '${loadedFoodData[index].timer} min',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
